@@ -1,0 +1,44 @@
+body {
+    background-color: #998e8d;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-gap: 20px;
+    grid-auto-rows: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+#card {
+    display: grid;
+    grid-column: 1 / -1;
+    background-color: bisque;
+    border-radius: 9pt;
+    font-family: verdana;
+    font-size: 54px;
+    margin: 25px;
+    height: 200px;
+    outline: outset 3px black;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #fc9403;
+}
+
+.buttons {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#prev {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+#next {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
