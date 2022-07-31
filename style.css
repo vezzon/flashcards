@@ -5,8 +5,7 @@ body {
 .container {
     display: grid;
     grid-template-columns: 200px 200px;
-    grid-gap: 20px;
-    grid-auto-rows: auto;
+    grid-gap: 10px;
     align-items: center;
     justify-content: center;
 }
@@ -28,11 +27,6 @@ body {
     color: #fc9403;
 }
 
-.buttons {
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-
 #prev {
     grid-column-start: 1;
     grid-column-end: 2;
@@ -40,5 +34,5 @@ body {
 
 #next {
     grid-column-start: 2;
-    grid-column-end: 3;
+    grid-column-end: 4;
 }
