@@ -1,3 +1,7 @@
 /resource
 /resources
+*.csv
+.vscode
+.env
+node_modules
 
