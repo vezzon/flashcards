@@ -1,6 +1,6 @@
-import express from 'express'
-import mysql2 from 'mysql2'
-import 'dotenv/config'
+const express = require('express')
+const mysql2 = require('mysql2')
+require('dotenv').config()
 
 const router = express.Router()
 
@@ -73,4 +73,4 @@ router.delete('/:id', (req, res) => {
   res.json({message: 'Deleted'})
 })
 
-export default router
+module.exports = router

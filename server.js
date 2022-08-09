@@ -1,6 +1,6 @@
-import express from 'express'
-import cors from 'cors'
-import router from './routes/cards.mjs'
+const express = require('express')
+const cors = require('cors')
+const router = require('./routes/cards.js')
 
 // console.log(process.env) 
 
