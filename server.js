@@ -1,33 +1,22 @@
 const express = require('express')
-const cors = require('cors')
+// const cors = require('cors')
+const morgan = require('morgan')
 const router = require('./routes/cards.js')
 
-// console.log(process.env) 
+// TODO add proper logger middleware
 
 const app = express()
-const port = 3000
 
-app.use(logger)
-
+app.set('view engine', 'ejs');
+app.use(morgan('dev'))
 app.use('/cards', router)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
-app.use(cors({
-  origin: "*"
-}))
+// app.use(cors({ origin: "*" }))
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  res.sendFile('./index.html', { root: '/Users/mateuszmajewski/Projects/Flashcards/' })
+  res.render('index')
 })
 
-
-app.listen(port, () => {
-  console.log(`Express webserver listening on port ${port}`)
-})
-
-
-function logger(req, res, next) {
-  console.log(req.originalUrl)
-  next()
-}
+app.listen(3000)

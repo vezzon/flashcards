@@ -6,10 +6,9 @@ let num = 1;
 
 let flag = 'eng';
 card.addEventListener('click', function () {
-    fetch(`http://127.0.0.1:3000/${num}`)
+    fetch(`http://localhost:3000/cards/${num}`)
     .then((response) => response.json())
     .then((data) => {
-        console.log('Data', data)
         if (flag == 'eng') {
             card.innerText = data.Eng;
             flag = 'pl';
@@ -18,6 +17,7 @@ card.addEventListener('click', function () {
             flag = 'eng';
         }
     })
+    .catch(err => console.log(err))
 });
 
 next.addEventListener('click', function () {
