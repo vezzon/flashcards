@@ -8,15 +8,7 @@ let flag = 'eng';
 card.addEventListener('click', function () {
     fetch(`http://localhost:3000/cards/${num}`)
     .then((response) => response.json())
-    .then((data) => {
-        if (flag == 'eng') {
-            card.innerText = data.Eng;
-            flag = 'pl';
-        } else if (flag == 'pl') {
-            card.innerText = data.Pl;
-            flag = 'eng';
-        }
-    })
+    .then((data) => flipCard(data))
     .catch(err => console.log(err))
 });
 
@@ -31,3 +23,12 @@ prev.addEventListener('click', function () {
 });
 
 
+const flipCard = (data) => {
+    if (flag == 'eng') {
+        card.innerText = data.Eng;
+        flag = 'pl';
+    } else if (flag == 'pl') {
+        card.innerText = data.Pl;
+        flag = 'eng';
+    }
+}
