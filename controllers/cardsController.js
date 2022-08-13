@@ -1,12 +1,5 @@
-const mysql2 = require('mysql2')
-require('dotenv').config()
+const connection = require('../configs/database')
 
-const connection = mysql2.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWD,
-  database: process.env.DB_NAME,
-})
 
 const get_one_card = (req, res) => {
   connection.query(
@@ -22,7 +15,7 @@ const get_one_card = (req, res) => {
 const get_all_cards = (req, res) => {
   connection.query(
     'SELECT * FROM cards',
-    [req.params.Id],
+    [],
     (err, results) => {
       console.log(results);
       res.json(results)
