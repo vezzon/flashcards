@@ -1,13 +1,10 @@
-const bcrypt = require('bcrypt')
-const connection = require('../configs/database')
 const tokenHandler = require('../auth/tokenHandler')
+const bcrypt = require('bcrypt')
 const userService = require('../services/userService')
 
 
 
 const get_signup = async (req, res) => {
-    const user = await userService.getUserById(1)
-    console.log('Expected user obj', user)
     res.render('signup')
 }
 
@@ -15,51 +12,25 @@ const get_login = (req, res) => {
     res.render('login')
 }
 
-const post_signup = (req, res) => {
+const post_signup = async (req, res) => {
     const { email, password } = req.body
-    const hash = bcrypt.hashSync(password, 10)
-    connection.query(
-        'INSERT INTO users (email,password) VALUES (?, ?)',
-        [email, hash],
-        (err, results) => {
-            if (err) {
-                res.redirect('/register')
-            } else {
-                console.log(results)
-                res.redirect('/login')
-            }
-        }
-    )
+    try {
+        await userService.createUser(email, password)
+        res.redirect('/login')
+    } catch (error) {
+        console.log(error)
+        res.redirect('/register')
+    }
 }
 
-const post_login = (req, res) => {
+const post_login = async (req, res) => {
     const { email, password } = req.body
-    connection.query(
-        'SELECT Email,Password FROM users WHERE Email = ?',
-        [email],
-        (err, results) => {
-            if (err) {
-                res.json({
-                    success: 0,
-                    message: err // FOR DEV PURPOSES TODO CHANGE
-                })
-            } else {
-                const compareHash = bcrypt.compareSync(password, results[0].Password)
-                if (compareHash) {
-                    const token = tokenHandler.generateAccessToken({email})
-                    console.log(token)
-                    res.cookie('jwt', token)
-                    res.redirect('/')
-                    // res.json({
-                    //     success: 1,
-                    //     message: `User successfuly logged in!`
-                    // })
-                } else {
-                    res.redirect('/login')
-                }
-            }
-        }
-    )
+    const user = await userService.getUserByEmail(email)
+    if (await bcrypt.compare(password, user.Password)) {
+        console.log(user)
+    } else {
+        console.log('something went wrong')
+    }
 }
 
 
