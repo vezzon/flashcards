@@ -16,10 +16,16 @@ const post_signup = async (req, res) => {
     const { email, password } = req.body
     try {
         await userService.createUser(email, password)
-        res.redirect('/login')
+        res.status(201).json({
+            success: 1,
+            message: 'user signup successfuly'
+        })
     } catch (error) {
-        console.log(error)
-        res.redirect('/register')
+        console.error(error)
+        res.status(400).json({
+            success: 0,
+            message: 'Something went wrong!'
+        })
     }
 }
 
@@ -27,9 +33,15 @@ const post_login = async (req, res) => {
     const { email, password } = req.body
     const user = await userService.getUserByEmail(email)
     if (await bcrypt.compare(password, user.Password)) {
-        console.log(user)
+        res.cookie('access_token', tokenHandler.generateAccessToken(user)).json({
+            success: 1,
+            message: 'User logged in!'
+        })
     } else {
-        console.log('something went wrong')
+        res.status(400).json({
+            success: 0,
+            message: 'Email or Password is incorrect!'
+        })
     }
 }
 
