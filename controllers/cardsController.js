@@ -47,9 +47,15 @@ const delete_card = (req, res) => {
   )
   res.json({message: 'Deleted'})
 }
+
+const get_cars_learn = (req, res) => {
+  res.render('learn')
+}
+
 module.exports = {
     get_one_card,
     get_all_cards,
     create_card,
-    delete_card
+    delete_card,
+    get_cars_learn
 }
