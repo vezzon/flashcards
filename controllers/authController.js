@@ -1,10 +1,13 @@
 const bcrypt = require('bcrypt')
 const connection = require('../configs/database')
 const tokenHandler = require('../auth/tokenHandler')
+const userService = require('../services/userService')
 
 
 
-const get_signup = (req, res) => {
+const get_signup = async (req, res) => {
+    const user = await userService.getUserById(1)
+    console.log('Expected user obj', user)
     res.render('signup')
 }
 
@@ -45,6 +48,7 @@ const post_login = (req, res) => {
                 if (compareHash) {
                     const token = tokenHandler.generateAccessToken({email})
                     console.log(token)
+                    res.cookie('jwt', token)
                     res.redirect('/')
                     // res.json({
                     //     success: 1,
