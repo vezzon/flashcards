@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const morgan = require("morgan");
 const cardsRouter = require("./routes/cards.js");
 const authRouter = require("./routes/auth.js");
@@ -6,7 +7,11 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-app.set("view engine", "ejs");
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());

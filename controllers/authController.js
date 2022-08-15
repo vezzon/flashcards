@@ -5,7 +5,7 @@ const userService = require("../services/userService");
 const post_signup = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = userService.getUserByEmail(email);
+    const user = await userService.getUserByEmail(email);
     if (user) {
       res.status(400).json({
         success: 0,
@@ -15,7 +15,7 @@ const post_signup = async (req, res) => {
       await userService.createUser(email, password);
       res.status(201).json({
         success: 1,
-        message: "user signup successfuly",
+        message: "User signup successfuly",
       });
     }
   } catch (error) {

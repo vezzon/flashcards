@@ -3,7 +3,7 @@ const cardsService = require("../services/cardService");
 const get_one_card = async (req, res) => {
   const card = await cardsService.getCardById(req.params.id);
   if (card) {
-    res.status(201).json(card);
+    res.status(200).json(card);
   } else {
     res.status(404).json({
       success: 1,
@@ -24,7 +24,7 @@ const create_card = async (req, res) => {
 
 const delete_card = async (req, res) => {
   const id = req.params.id;
-  const card = cardsService.getCardById(id);
+  const card = await cardsService.getCardById(id);
   if (card) {
     await cardsService.deleteCard(id);
     res.status(204).json({
