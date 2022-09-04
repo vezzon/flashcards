@@ -1,14 +1,15 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const generateAccessToken = (user) => {
-  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "4h" });
+const generateAccessToken = user => {
+  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '72h' });
 };
 
 const authorization = (req, res, next) => {
-  const token = req.cookies.access_token;
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
   if (!token) {
-    return res.sendStatus(403);
+    return res.sendStatus(401);
   }
   try {
     jwt.verify(token, process.env.JWT_SECRET);
