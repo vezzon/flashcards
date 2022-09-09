@@ -1,4 +1,7 @@
-const tokenHandler = require('../auth/tokenHandler');
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require('../auth/tokenHandler');
 const bcrypt = require('bcrypt');
 const userService = require('../services/userService');
 
@@ -29,13 +32,14 @@ const post_signup = async (req, res) => {
 
 const post_login = async (req, res) => {
   const { email, password } = req.body;
-  console.log('req.body', req.body);
   try {
     const user = await userService.getUserByEmail(email);
     console.log('user', user);
     if (await bcrypt.compare(password, user.Password)) {
+      const jwtData = { Id: user.Id, Email: user.Email };
       res.status(200).json({
-        token: tokenHandler.generateAccessToken(user),
+        token: generateAccessToken(jwtData),
+        refreshToken: generateRefreshToken(jwtData),
       });
     } else {
       res.status(400).json({
