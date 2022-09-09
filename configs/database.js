@@ -1,11 +1,19 @@
-const mysql2 = require("mysql2");
-require("dotenv").config();
+const Sequelize = require('sequelize');
+require('dotenv').config();
 
-const pool = mysql2.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWD,
-  database: process.env.DB_NAME,
+const host = process.env.DB_HOST;
+const dbName = process.env.DB_NAME;
+const username = process.env.DB_USER;
+const password = process.env.DB_PASSWD;
+
+const db = new Sequelize(dbName, username, password, {
+  host: host,
+  dialect: 'mariadb',
 });
 
-module.exports = pool.promise();
+// Test DB
+db.authenticate()
+  .then(() => console.log('DB Connection established'))
+  .catch(err => console.log('Err \n' + err));
+
+module.exports = db;

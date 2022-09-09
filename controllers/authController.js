@@ -35,8 +35,8 @@ const post_login = async (req, res) => {
   try {
     const user = await userService.getUserByEmail(email);
     console.log('user', user);
-    if (await bcrypt.compare(password, user.Password)) {
-      const jwtData = { Id: user.Id, Email: user.Email };
+    if (await bcrypt.compare(password, user.password)) {
+      const jwtData = { id: user.id, email: user.email };
       res.status(200).json({
         token: generateAccessToken(jwtData),
         refreshToken: generateRefreshToken(jwtData),

@@ -1,30 +1,53 @@
-const pool = require("../configs/database");
+const cardTable = require('../models/cardModel');
 
-const getCardById = async (id) => {
-  const query = "SELECT * FROM cards WHERE Id = ?";
-  const [rows, fields] = await pool.query(query, [id]);
-  return rows[0];
+const getCardById = async id => {
+  try {
+    const card = await cardTable.findOne({ where: { id } });
+    return card;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getAllCards = async () => {
-  const query = "SELECT * FROM cards";
-  const [rows, fields] = await pool.query(query);
-  return rows;
+  try {
+    const cards = await cardTable.findAll();
+    return cards;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const createCard = async (eng, pl) => {
-  const query = "INSERT INTO cards (Eng,Pl) VALUES (?, ?)";
-  await pool.query(query, [eng, pl]);
+const getAllCardsByUser = async user_id => {
+  try {
+    const cards = await cardTable.findAll({ where: { user_id } });
+    return cards;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const deleteCard = async (id) => {
-  const query = "DELETE FROM cards WHERE Id = ?";
-  await pool.query(query, [id]);
+const createCard = async (front, back, user_id) => {
+  try {
+    const card = await cardTable.create({ front, back, user_id });
+    console.log('Card Id:', card.id);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteCard = async id => {
+  try {
+    await cardTable.destroy({ where: { id } });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
   getCardById,
   getAllCards,
+  getAllCardsByUser,
   createCard,
   deleteCard,
 };

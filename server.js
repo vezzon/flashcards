@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const cardsRouter = require('./routes/cards.js');
-const authRouter = require('./routes/auth.js');
+const cardsRouter = require('./routes/cards');
+const authRouter = require('./routes/auth');
+const usersRouter = require('./routes/users');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -20,10 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/cards', cardsRouter);
+app.use('/users', usersRouter);
 app.use(authRouter);
-
-app.get('/', (req, res) => {
-  res.render('index');
-});
 
 app.listen(4000);

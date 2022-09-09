@@ -1,19 +1,15 @@
 const { DataTypes } = require('sequelize');
 const db = require('../configs/database');
 
-const Card = db.define('card', {
-  front: {
+const User = db.define('user', {
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  back: {
+  password: {
     type: DataTypes.STRING,
-    allowNull: false,
-  },
-  user_id: {
-    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
 
-module.exports = Card;
+module.exports = User;

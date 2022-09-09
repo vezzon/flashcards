@@ -1,28 +1,47 @@
-const pool = require('../configs/database');
+const userTable = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const id_email_passwd = ['id', 'email', 'password'];
 
 const getUserById = async id => {
-  const query = 'SELECT Email,Password FROM users WHERE Id = ?';
-  const [rows, fields] = await pool.query(query, [id]);
-  return rows[0];
+  try {
+    const user = await userTable.findOne({
+      where: { id: id },
+      attributes: id_email_passwd,
+    });
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getUserByEmail = async email => {
-  const query = 'SELECT Id,Email,Password FROM users WHERE Email = ?';
-  const [rows, fields] = await pool.query(query, [email]);
-  return rows[0];
+  try {
+    const user = await userTable.findOne({
+      where: { email: email },
+      attributes: id_email_passwd,
+    });
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getAllUsers = async () => {
-  const query = 'SELECT Id,Email FROM users';
-  const [rows, fields] = await pool.query(query);
-  return rows;
+  try {
+    const users = await userTable.findAll({ attributes: id_email_passwd });
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const createUser = async (email, password) => {
-  const hash = await bcrypt.hash(password, 10);
-  const query = 'INSERT INTO users (email,password) VALUES (?, ?)';
-  await pool.query(query, [email, hash]);
+  try {
+    const hash = await bcrypt.hash(password, 10);
+    await userTable.create({ email: email, password: hash });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
