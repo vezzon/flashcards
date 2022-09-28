@@ -1,30 +1,37 @@
 const jwt = require('jsonwebtoken');
+const tokenTable = require('../models/tokenModel');
 require('dotenv').config();
 
+//TODO: change expires time in tokens
+
 const generateAccessToken = user => {
-  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '72h' });
+  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '5s' });
 };
 
 const generateRefreshToken = user => {
-  return jwt.sign(user, process.env.JWT_REFRESH_SECRET, { expiresIn: '72h' });
+  return jwt.sign(user, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
 };
 
-const authorization = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (!token) {
-    return res.sendStatus(401);
+const refreshTokenExists = async refreshToken => {
+  const dbToken = await tokenTable.findOne({ where: { token: refreshToken } });
+  if (dbToken) {
+    // TODO: Logic for revoking token
+    return true;
   }
+  return false;
+};
+
+const saveRefreshToken = async refreshToken => {
   try {
-    jwt.verify(token, process.env.JWT_SECRET);
-    return next();
-  } catch {
-    return res.sendStatus(403);
+    await tokenTable.create({ token: refreshToken });
+  } catch (error) {
+    console.log(error);
   }
 };
 
 module.exports = {
   generateAccessToken,
   generateRefreshToken,
-  authorization,
+  refreshTokenExists,
+  saveRefreshToken,
 };

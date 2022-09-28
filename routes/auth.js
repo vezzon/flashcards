@@ -1,12 +1,11 @@
 const express = require('express');
 const authController = require('../controllers/authController');
-const { check, validationResult } = require('express-validator');
+// const { check, validationResult } = require('express-validator');
 
 const router = express.Router();
 
-// TODO ADD VALIDATOR
-
-router.post('/signup', authController.post_signup);
-router.post('/login', authController.post_login);
+router.post('/login', authController.login);
+router.post('/logout', authController.logout);
+router.get('/refresh', authController.refresh);
 
 module.exports = router;

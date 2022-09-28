@@ -29,8 +29,7 @@ const getAllCardsByUser = async user_id => {
 
 const createCard = async (front, back, user_id) => {
   try {
-    const card = await cardTable.create({ front, back, user_id });
-    console.log('Card Id:', card.id);
+    await cardTable.create({ front, back, user_id });
   } catch (error) {
     console.log(error);
   }

@@ -1,13 +1,15 @@
 const express = require('express');
 const cardsController = require('../controllers/cardsController');
-const { authorization } = require('../auth/tokenHandler');
+const { authorization } = require('../middleware/authorization');
 
 const router = express.Router();
 
-router.get('/:id', authorization, cardsController.get_one_card);
-router.get('/', authorization, cardsController.get_all_cards);
-router.get('/users/:user_id', authorization, cardsController.getAllCardsByUser);
-router.post('/', authorization, cardsController.create_card);
-router.delete('/:id', authorization, cardsController.delete_card);
+router.use(authorization);
+
+router.get('/:id', cardsController.getOneCard);
+router.get('/', cardsController.getAllCards);
+router.get('/users/:user_id', cardsController.getAllCardsByUser);
+router.post('/', cardsController.createCard);
+router.delete('/:id', cardsController.deleteCard);
 
 module.exports = router;

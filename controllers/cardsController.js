@@ -1,24 +1,21 @@
 const cardsService = require('../services/cardService');
 
-const get_one_card = async (req, res) => {
+const getOneCard = async (req, res) => {
   try {
     const card = await cardsService.getCardById(req.params.id);
     if (card) {
-      res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.set('Access-Control-Allow-Credentials', 'true');
+      // res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+      // res.set('Access-Control-Allow-Credentials', 'true');
       res.status(200).json(card);
     } else {
-      res.status(404).json({
-        success: 1,
-        message: 'Card not found',
-      });
+      res.status(404).json({ message: 'Card not found' });
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-const get_all_cards = async (req, res) => {
+const getAllCards = async (req, res) => {
   try {
     const cards = await cardsService.getAllCards();
     res.json(cards);
@@ -36,7 +33,7 @@ const getAllCardsByUser = async (req, res) => {
   }
 };
 
-const create_card = async (req, res) => {
+const createCard = async (req, res) => {
   try {
     await cardsService.createCard(
       req.body.front,
@@ -49,21 +46,15 @@ const create_card = async (req, res) => {
   }
 };
 
-const delete_card = async (req, res) => {
+const deleteCard = async (req, res) => {
   try {
     const id = req.params.id;
     const card = await cardsService.getCardById(id);
     if (card) {
       await cardsService.deleteCard(id);
-      res.status(204).json({
-        success: 1,
-        message: 'Card deleted',
-      });
+      res.status(204).json({ message: 'Card deleted' });
     } else {
-      res.status(404).json({
-        success: 0,
-        message: 'Not found',
-      });
+      res.status(404).json({ message: 'Not found' });
     }
   } catch (error) {
     console.log(error);
@@ -71,9 +62,9 @@ const delete_card = async (req, res) => {
 };
 
 module.exports = {
-  get_one_card,
-  get_all_cards,
+  getOneCard,
+  getAllCards,
   getAllCardsByUser,
-  create_card,
-  delete_card,
+  createCard,
+  deleteCard,
 };
