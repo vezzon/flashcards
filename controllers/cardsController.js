@@ -4,8 +4,6 @@ const getOneCard = async (req, res) => {
   try {
     const card = await cardsService.getCardById(req.params.id);
     if (card) {
-      // res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-      // res.set('Access-Control-Allow-Credentials', 'true');
       res.status(200).json(card);
     } else {
       res.status(404).json({ message: 'Card not found' });

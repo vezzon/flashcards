@@ -68,7 +68,7 @@ const refresh = async (req, res) => {
           return res.status(401).json({ message: 'Unauthorized' });
 
         const token = generateAccessToken(jwtData);
-        res.status(200).json({ token });
+        res.status(200).json({ id: jwtData.id, token });
         // await saveRefreshToken(refreshToken);
       } catch (error) {
         return res.sendStatus(500);

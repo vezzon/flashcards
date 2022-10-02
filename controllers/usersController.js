@@ -7,20 +7,17 @@ const signup = async (req, res) => {
     const user = await userService.getUserByEmail(email);
     if (user) {
       res.status(400).json({
-        success: 0,
         message: 'Invalid credentials',
       });
     } else {
       await userService.createUser(email, password);
       res.status(201).json({
-        success: 1,
         message: 'User signup successfuly',
       });
     }
   } catch (error) {
     console.error(error);
     res.status(400).json({
-      success: 0,
       message: 'Something went wrong!',
     });
   }
@@ -39,8 +36,6 @@ const getUserById = async (req, res) => {
   try {
     const user = await userService.getUserById(req.params.id);
     if (user) {
-      res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.set('Access-Control-Allow-Credentials', 'true');
       res.status(200).json(user);
     }
   } catch (error) {
