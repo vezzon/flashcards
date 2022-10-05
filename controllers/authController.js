@@ -1,7 +1,6 @@
 const {
   generateAccessToken,
   generateRefreshToken,
-  saveRefreshToken,
 } = require('../auth/tokenHandler');
 const bcrypt = require('bcrypt');
 const userService = require('../services/userService');
@@ -51,8 +50,6 @@ const refresh = async (req, res) => {
   if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' });
 
   const refreshToken = cookies.jwt;
-  // const refreshTokenExists = await refreshTokenExists(refreshToken);
-  // if (refreshTokenExists) return res.sendStatus(403);
 
   jwt.verify(
     refreshToken,
@@ -69,7 +66,6 @@ const refresh = async (req, res) => {
 
         const token = generateAccessToken(jwtData);
         res.status(200).json({ id: jwtData.id, token });
-        // await saveRefreshToken(refreshToken);
       } catch (error) {
         return res.sendStatus(500);
       }
