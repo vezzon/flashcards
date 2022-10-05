@@ -1,8 +1,8 @@
-const cardTable = require('../models/cardModel');
+const { Card } = require('../models');
 
 const getCardById = async id => {
   try {
-    const card = await cardTable.findOne({ where: { id } });
+    const card = await Card.findOne({ where: { id } });
     return card;
   } catch (error) {
     console.log(error);
@@ -11,7 +11,7 @@ const getCardById = async id => {
 
 const getAllCards = async () => {
   try {
-    const cards = await cardTable.findAll();
+    const cards = await Card.findAll();
     return cards;
   } catch (error) {
     console.log(error);
@@ -20,7 +20,7 @@ const getAllCards = async () => {
 
 const getAllCardsByUser = async user_id => {
   try {
-    const cards = await cardTable.findAll({ where: { user_id } });
+    const cards = await Card.findAll({ where: { user_id } });
     return cards;
   } catch (error) {
     console.log(error);
@@ -29,7 +29,7 @@ const getAllCardsByUser = async user_id => {
 
 const createCard = async (front, back, user_id) => {
   try {
-    await cardTable.create({ front, back, user_id });
+    await Card.create({ front, back, user_id });
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +37,7 @@ const createCard = async (front, back, user_id) => {
 
 const deleteCard = async id => {
   try {
-    await cardTable.destroy({ where: { id } });
+    await Card.destroy({ where: { id } });
   } catch (error) {
     console.log(error);
   }

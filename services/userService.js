@@ -1,5 +1,5 @@
 // const userTable = require('../models/userModel');
-const { User } = require('../models/user');
+const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const id_email_passwd = ['id', 'email', 'password'];
 
