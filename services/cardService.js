@@ -1,8 +1,9 @@
-const cardTable = require('../models/cardModel');
+const Card = require('../models/Card');
+const ObjectId = require('mongoose').Types.ObjectId;
 
-const getCardById = async id => {
+const getCardById = async _id => {
   try {
-    const card = await cardTable.findOne({ where: { id } });
+    const card = await Card.findOne({ _id });
     return card;
   } catch (error) {
     console.log(error);
@@ -11,25 +12,26 @@ const getCardById = async id => {
 
 const getAllCards = async () => {
   try {
-    const cards = await cardTable.findAll();
+    const cards = await Card.find();
     return cards;
   } catch (error) {
     console.log(error);
   }
 };
 
-const getAllCardsByUser = async user_id => {
+const getAllCardsByUser = async userId => {
   try {
-    const cards = await cardTable.findAll({ where: { user_id } });
+    const query = { userId: ObjectId(userId) };
+    const cards = await Card.find(query).exec();
     return cards;
   } catch (error) {
     console.log(error);
   }
 };
 
-const createCard = async (front, back, user_id) => {
+const createCard = async (front, back, userId) => {
   try {
-    await cardTable.create({ front, back, user_id });
+    await Card.create({ front, back, userId });
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +39,7 @@ const createCard = async (front, back, user_id) => {
 
 const deleteCard = async id => {
   try {
-    await cardTable.destroy({ where: { id } });
+    await Card.findOneAndDelete({ id });
   } catch (error) {
     console.log(error);
   }

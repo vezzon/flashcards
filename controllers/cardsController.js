@@ -24,7 +24,7 @@ const getAllCards = async (req, res) => {
 
 const getAllCardsByUser = async (req, res) => {
   try {
-    const cards = await cardsService.getAllCardsByUser(req.params.user_id);
+    const cards = await cardsService.getAllCardsByUser(req.params.userId);
     res.json(cards);
   } catch (error) {
     console.log(error);
@@ -36,7 +36,7 @@ const createCard = async (req, res) => {
     await cardsService.createCard(
       req.body.front,
       req.body.back,
-      req.body.user_id
+      req.body.userId
     );
     res.status(201).send(req.body);
   } catch (error) {

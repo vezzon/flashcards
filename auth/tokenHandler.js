@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-const tokenTable = require('../models/tokenModel');
-require('dotenv').config();
 
 //TODO: change expires time in tokens
 

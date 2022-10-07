@@ -1,19 +1,14 @@
-const Sequelize = require('sequelize');
-require('dotenv').config();
+const mongoose = require('mongoose');
 
-const host = process.env.DB_HOST;
-const dbName = process.env.DB_NAME;
-const username = process.env.DB_USER;
-const password = process.env.DB_PASSWD;
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const db = new Sequelize(dbName, username, password, {
-  host: host,
-  dialect: 'mariadb',
-});
-
-// Test DB
-db.authenticate()
-  .then(() => console.log('DB Connection established'))
-  .catch(err => console.log('Err \n' + err));
-
-module.exports = db;
+module.exports = connectDB;

@@ -3,6 +3,7 @@ const userService = require('../services/userService');
 const signup = async (req, res) => {
   const { email, password } = req.body;
   // TODO: validate email and password
+
   try {
     const user = await userService.getUserByEmail(email);
     if (user) {
@@ -12,7 +13,7 @@ const signup = async (req, res) => {
     } else {
       await userService.createUser(email, password);
       res.status(201).json({
-        message: 'User signup successfuly',
+        message: `User ${email} signup successfuly`,
       });
     }
   } catch (error) {

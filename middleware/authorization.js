@@ -1,5 +1,4 @@
 const { verify } = require('jsonwebtoken');
-require('dotenv').config();
 
 const authorization = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;

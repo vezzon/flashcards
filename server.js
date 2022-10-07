@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -9,7 +10,10 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const errorHandler = require('./middleware/errorHandler');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
+const mongoose = require('mongoose');
+const connectDB = require('./configs/database');
+
+connectDB();
 
 const logStream = fs.createWriteStream(
   path.join(__dirname, 'logs', 'req.log'),
@@ -32,4 +36,7 @@ app.use('/api', authRouter);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
