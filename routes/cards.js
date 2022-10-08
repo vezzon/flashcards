@@ -1,15 +1,25 @@
 const express = require('express');
-const cardsController = require('../controllers/cardsController');
+const {
+  getOneCard,
+  getAllCards,
+  getAllCardsByUser,
+  createCard,
+  deleteCard,
+} = require('../controllers/cardsController');
 const { authorization } = require('../middleware/authorization');
+const {
+  validateCreationRules,
+  validateCardCreation,
+} = require('../middleware/validation/card');
 
 const router = express.Router();
 
-// router.use(authorization);
+router.use(authorization);
 
-router.get('/:id', cardsController.getOneCard);
-router.get('/', cardsController.getAllCards);
-router.get('/users/:userId', cardsController.getAllCardsByUser);
-router.post('/', cardsController.createCard);
-router.delete('/:id', cardsController.deleteCard);
+router.get('/:id', getOneCard);
+router.get('/', getAllCards);
+router.get('/users/:userId', getAllCardsByUser);
+router.post('/', validateCreationRules, validateCardCreation, createCard);
+router.delete('/:id', deleteCard);
 
 module.exports = router;

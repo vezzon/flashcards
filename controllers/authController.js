@@ -1,7 +1,6 @@
 const {
   generateAccessToken,
   generateRefreshToken,
-  saveRefreshToken,
 } = require('../auth/tokenHandler');
 const bcrypt = require('bcrypt');
 const userService = require('../services/userService');
@@ -17,9 +16,7 @@ const login = async (req, res) => {
     const user = await userService.getUserByEmail(email);
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: 'Email or Password is incorrect!' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
     if (await bcrypt.compare(password, user.password)) {
       const jwtData = { id: user.id, email: user.email };
@@ -37,7 +34,7 @@ const login = async (req, res) => {
         token: generateAccessToken(jwtData),
       });
     } else {
-      res.status(400).json({ message: 'Incorrect credentials' });
+      res.status(400).json({ message: 'Invalid credentials' });
     }
   } catch (error) {
     console.error(error);
@@ -47,12 +44,9 @@ const login = async (req, res) => {
 
 const refresh = async (req, res) => {
   const cookies = req.cookies;
-  console.log('Cookies from request refresh', cookies);
   if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' });
 
   const refreshToken = cookies.jwt;
-  // const refreshTokenExists = await refreshTokenExists(refreshToken);
-  // if (refreshTokenExists) return res.sendStatus(403);
 
   jwt.verify(
     refreshToken,
@@ -79,7 +73,6 @@ const refresh = async (req, res) => {
 
 const logout = (req, res) => {
   const cookies = req.cookies;
-  console.log('cookies from logout', cookies);
   if (!cookies?.jwt) return res.sendStatus(204);
   res.clearCookie('jwt', {
     httpOnly: true,
