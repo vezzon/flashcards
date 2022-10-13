@@ -37,7 +37,6 @@ const login = async (req, res) => {
       res.status(400).json({ message: 'Invalid credentials' });
     }
   } catch (error) {
-    console.error(error);
     res.status(400).json({ message: 'Something went wrong!' });
   }
 };
@@ -63,7 +62,6 @@ const refresh = async (req, res) => {
 
         const token = generateAccessToken(jwtData);
         res.status(200).json({ id: jwtData.id, token });
-        // await saveRefreshToken(refreshToken);
       } catch (error) {
         return res.sendStatus(500);
       }

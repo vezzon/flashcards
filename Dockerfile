@@ -13,4 +13,6 @@ COPY . .
 
 RUN npm run build
 
-CMD ["sh", "-c", "npm run start:production"]
+EXPOSE 4000
+
+CMD ["sh", "-c", "npm run start"]

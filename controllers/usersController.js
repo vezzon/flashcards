@@ -2,7 +2,6 @@ const userService = require('../services/userService');
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
-  // TODO: validate email and password
 
   try {
     const user = await userService.getUserByEmail(email);

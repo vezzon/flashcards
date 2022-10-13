@@ -4,6 +4,7 @@
   "private": true,
   "description": "Backend for flashcards app",
   "scripts": {
+    "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {
