@@ -1,4 +1,4 @@
-FROM node:16 AS Production
+FROM node:16
 
 ENV NODE_ENV=production
 
@@ -10,8 +10,6 @@ COPY package-lock.json .
 RUN npm install
 
 COPY . .
-
-RUN npm run build
 
 EXPOSE 4000
 
