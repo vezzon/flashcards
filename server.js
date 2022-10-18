@@ -15,10 +15,15 @@ const connectDB = require('./configs/database');
 
 connectDB();
 
-const logStream = fs.createWriteStream(
-  path.join(__dirname, 'logs', 'req.log'),
-  { flags: 'a' }
-);
+const dir = path.join(__dirname, 'logs');
+
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
+
+const logStream = fs.createWriteStream(path.join(dir, 'req.log'), {
+  flags: 'a',
+});
 
 const PORT = process.env.PORT || 4000;
 
